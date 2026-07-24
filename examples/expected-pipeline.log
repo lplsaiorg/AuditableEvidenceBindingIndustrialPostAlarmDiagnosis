@@ -1,0 +1,16 @@
+[01] pipeline             RUNNING    auditable diagnosis run started
+[02] load_event           RUNNING    load_event started
+[03] load_event           COMPLETED  load_event completed
+[04] extract_evidence     RUNNING    extract_evidence started
+[05] extract_evidence     COMPLETED  extract_evidence completed
+[06] bind_provenance      RUNNING    bind_provenance started
+[07] bind_provenance      COMPLETED  bind_provenance completed
+[08] build_schema         RUNNING    build_schema started
+[09] build_schema         COMPLETED  build_schema completed
+[10] generate_diagnosis   RUNNING    generate_diagnosis started
+[11] generate_diagnosis   COMPLETED  generate_diagnosis completed
+[12] audit_diagnosis      RUNNING    audit_diagnosis started
+[13] audit_diagnosis      COMPLETED  audit_diagnosis completed
+[14] write_manifest       RUNNING    write_manifest started
+[15] write_manifest       COMPLETED  write_manifest completed
+[16] pipeline             ACCEPTED   auditable diagnosis run completed: accepted

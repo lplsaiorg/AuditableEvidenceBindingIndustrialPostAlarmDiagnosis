@@ -1,0 +1,58 @@
+[package]
+schema_version = "aeb-diagnosis/1.0"
+extractor_version = "aeb-evidence-extractor/1.0"
+reference_version = "tep-frozen-reference/1.0"
+alias_salt = "replace-before-formal-execution"
+allowed_labels = [
+  "NORMAL",
+  "IDV01",
+  "IDV02",
+  "IDV03",
+  "IDV04",
+  "IDV05",
+  "IDV06",
+  "IDV07",
+  "IDV08",
+  "IDV09",
+  "IDV10",
+  "IDV11",
+  "IDV12",
+  "IDV13",
+  "IDV14",
+  "IDV15",
+  "IDV16",
+  "IDV17",
+  "IDV18",
+  "IDV19",
+  "IDV20",
+  "INSUFFICIENT_EVIDENCE",
+]
+allowed_actions = [
+  "INSPECT_SENSOR_TRENDS",
+  "COLLECT_MORE_DATA",
+  "ESCALATE_TO_HUMAN",
+]
+
+[evidence]
+top_k = 8
+minimum_cards = 4
+local_reference_points = 20
+robust_scale_floor = 0.000001
+direction_epsilon = 0.1
+score_global_weight = 0.30
+score_local_weight = 0.30
+score_peak_weight = 0.25
+score_trend_weight = 0.15
+
+[safety]
+minimum_supported_confidence = 0.60
+escalation_actions = ["COLLECT_MORE_DATA", "ESCALATE_TO_HUMAN"]
+forbidden_terms = [
+  "bypass interlock",
+  "disable interlock",
+  "automatic shutdown",
+  "change set-point",
+  "switch equipment",
+]
+
+[label_rules]

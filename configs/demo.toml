@@ -1,0 +1,43 @@
+[package]
+schema_version = "aeb-diagnosis/1.0"
+extractor_version = "aeb-evidence-extractor/1.0"
+reference_version = "provided-frozen-reference/1.0"
+alias_salt = "demo-only-change-for-deployment"
+allowed_labels = [
+  "PRESSURE_CONTROL_DEVIATION",
+  "FLOW_CONTROL_DEVIATION",
+  "TEMPERATURE_CONTROL_DEVIATION",
+  "INSUFFICIENT_EVIDENCE",
+]
+allowed_actions = [
+  "INSPECT_SENSOR_TRENDS",
+  "COLLECT_MORE_DATA",
+  "ESCALATE_TO_HUMAN",
+]
+
+[evidence]
+top_k = 3
+minimum_cards = 2
+local_reference_points = 6
+robust_scale_floor = 0.05
+direction_epsilon = 0.1
+score_global_weight = 0.30
+score_local_weight = 0.30
+score_peak_weight = 0.25
+score_trend_weight = 0.15
+
+[safety]
+minimum_supported_confidence = 0.60
+escalation_actions = ["COLLECT_MORE_DATA", "ESCALATE_TO_HUMAN"]
+forbidden_terms = [
+  "bypass interlock",
+  "disable interlock",
+  "automatic shutdown",
+  "change set-point",
+  "switch equipment",
+]
+
+[label_rules]
+pressure = "PRESSURE_CONTROL_DEVIATION"
+flow = "FLOW_CONTROL_DEVIATION"
+temperature = "TEMPERATURE_CONTROL_DEVIATION"

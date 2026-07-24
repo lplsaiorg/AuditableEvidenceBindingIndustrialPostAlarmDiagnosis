@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "auditable-evidence-binding"
+version = "0.1.0"
+description = "Auditable evidence binding for industrial post-alarm diagnosis"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "jsonschema==4.25.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3,<9",
+]
+
+[project.scripts]
+aeb-diagnose = "auditable_evidence_binding.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+pythonpath = ["src"]
+testpaths = ["tests"]
