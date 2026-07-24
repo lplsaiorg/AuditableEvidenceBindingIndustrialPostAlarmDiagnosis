@@ -6,154 +6,197 @@ This repository accompanies the manuscript:
 >
 > Wu Zhang, Tianwu Lei, Luo Xiao, and Yong Yang
 
-Industrial anomaly detectors can identify suspicious intervals, but a downstream large
-language model can still produce a fluent diagnosis that cites irrelevant, stale, or
-out-of-event observations. This work introduces an auditable context evidence package
-that binds every candidate diagnosis to sensor-derived support, counterevidence, missing
-information, event-local provenance, and deterministic safety gates.
+The paper studies a specific problem that begins after an industrial anomaly detector has
+raised an alarm: how can a large language model propose a useful diagnosis without
+disconnecting its explanation from the sensor observations that actually belong to the
+event?
 
-The goal is a **rejectable interface for human review**. The package supports auditable
-fault-signature diagnosis; it does not claim physical root-cause proof, field-safety
-certification, or autonomous equipment control.
+The proposed answer is an **auditable context evidence package**. It turns a frozen alarm
+interval into a claim-local diagnostic record whose structure, provenance, evidence links,
+and permitted actions can be checked outside the language model. The intended output is a
+rejectable handoff to a human reviewer, not an autonomous control decision.
 
-## Why Evidence Binding?
+## Paper at a Glance
 
-A valid industrial post-alarm record must satisfy several requirements that should not be
-collapsed into one score:
+### Problem
 
-1. **Structural validity** - the generated record follows a strict, machine-checkable
-   schema.
-2. **Provenance integrity** - every cited observation belongs to the current event and
-   resolves to immutable source coordinates, versions, and hashes.
-3. **Evidence responsiveness** - diagnoses and citations change when the underlying
-   sensor content changes, rather than merely copying identifiers or positions.
-4. **Semantic support** - the selected fault signature and explanation are supported by
-   the cited observations.
-5. **Operational safety** - uncertain, contradictory, or high-risk outputs are rejected,
-   routed to data collection, or escalated to a human.
+An LLM-generated post-alarm explanation can fail in several independent ways:
 
-Passing an earlier layer does not imply success at a later one. In particular, schema
-compliance and identifier validity are necessary audit properties, not evidence of
-diagnostic correctness.
+- it may not satisfy the required output schema;
+- it may cite an identifier that is syntactically valid but belongs to another event;
+- it may copy visible identifiers without using the associated sensor content;
+- it may omit contradictory observations or missing information;
+- it may express unjustified confidence or recommend a hazardous action.
 
-## Method Overview
+The paper argues that these failures cannot be represented by one accuracy or citation
+score. Structural validity, provenance integrity, content responsiveness, semantic support,
+and operational safety must be evaluated separately.
+
+### Proposed Evidence Contract
 
 ```mermaid
 flowchart LR
     A[Frozen alarm interval] --> B[Candidate observation cards]
     B --> C[Randomized event-local aliases]
-    C --> D[LLM claim-local diagnosis]
+    C --> D[LLM candidate diagnoses]
     B --> E[Model-invisible provenance registry]
-    D --> F[Strict schema and dynamic-key validation]
+    D --> F[Schema and dynamic-key validation]
     E --> F
     F --> G[Default-deny safety gates]
     G --> H[Human review]
 ```
 
-For each frozen alarm event, the pipeline:
+For each alarm event, the method:
 
-- extracts up to eight multiview candidate observation cards using global and local
-  deviations, temporal features, detector contributions, process metadata, and quality
-  flags;
-- assigns randomized event-local aliases such as `E01` through `E08`, independent of
-  candidate rank;
-- retains source coordinates, dataset and extractor versions, and content hashes in a
-  model-invisible provenance registry;
-- asks the LLM for up to three ranked, claim-local explanations, each with supporting
-  evidence, contradicting evidence, missing information, confidence, and a permitted
-  action; and
-- validates JSON Schema Draft 2020-12, runtime foreign keys, event ownership, hashes,
-  source coordinates, and action safety outside the model.
+1. builds up to eight candidate observation cards from global and local deviations,
+   temporal features, detector contributions, process metadata, and quality flags;
+2. assigns randomized event-local aliases such as `E01` through `E08`;
+3. stores source coordinates, file hashes, dataset versions, extractor versions, and
+   content hashes in a model-invisible registry;
+4. asks the LLM for up to three ranked explanations, each with supporting evidence,
+   contradicting evidence, missing information, confidence, and an allowed action; and
+5. rejects records that fail strict parsing, JSON Schema, runtime foreign keys,
+   event ownership, provenance hashes, or safety policy.
 
-High-risk actions such as shutdown, interlock bypass, set-point modification, or equipment
-switching cannot be directly executed from generated text. Conflicting or insufficient
-evidence triggers `COLLECT_MORE_DATA` or `ESCALATE_TO_HUMAN`.
+Shutdown, interlock bypass, set-point modification, and equipment switching are not
+directly executable outputs. Conflicting or insufficient evidence must lead to more data
+collection or human escalation.
 
-## Evaluation Design
+### Evaluation
 
-The study uses two public industrial time-series benchmarks for complementary purposes:
+The manuscript uses two public industrial time-series benchmarks for complementary
+purposes:
 
-| Dataset | Evaluation unit | Study role |
+| Dataset | Evaluation unit | Role in the paper |
 | --- | --- | --- |
-| HAI 21.03 | Attack or false-alarm cluster | Structure, provenance, counterfactual evidence tests, and held-out evaluation |
-| Tennessee Eastman Process (TEP) | Independent simulation run | Known fault semantics, selective diagnosis, calibration, explanation support, and safety |
+| HAI 21.03 | Attack or false-alarm cluster | Schema reliability, provenance, identifier shortcuts, counterfactual evidence tests, and held-out alarms |
+| Tennessee Eastman Process (TEP) | Independent simulation run | Known fault signatures, selective diagnosis, calibration, explanation support, and safety |
 
-The reported retrospective HAI analysis contains 137 alarm records nested in 50
-independent clusters. The primary TEP analysis contains 500 independent runs: 20 runs
-from each of 20 fault classes and 100 normal runs. Repeated conditions and evaluator calls
-are carried with their underlying event and do not increase the statistical sample size.
+The retrospective HAI evaluation contains 137 alarm records nested in 50 independent
+clusters. The primary TEP evaluation contains 500 independent runs: 20 runs from each of
+20 fault classes and 100 normal runs. Repeated generation conditions and evaluator calls
+remain attached to their underlying event and do not increase the statistical sample size.
 
-Paired controls isolate different failure modes:
+The paired experimental conditions include:
 
-- unconstrained versus schema-constrained generation;
-- an information-matched summary with methods and provenance attributes removed;
+- ordinary versus schema-constrained generation;
+- full evidence versus an information-matched summary;
 - order-only permutation as a null control;
-- attribute-to-identifier permutation to test whether citations follow content;
-- direction reversal to test sensitivity to increase/decrease semantics;
-- cross-event content replacement to test event consistency and abstention;
-- provenance conflicts that must be rejected before generation; and
-- deterministic identifier-copying controls that expose shortcut metrics.
+- attribute-to-identifier permutation;
+- direction reversal;
+- cross-event content replacement;
+- provenance conflicts that must be rejected before model invocation; and
+- deterministic identifier-copying controls.
 
-## Main Reported Results
+## Main Conclusions
 
-| Outcome | Full evidence | Comparison | Reported effect |
+The paper's final conclusion is not simply that an LLM becomes more accurate when given a
+longer prompt. It is that an industrial post-alarm system should divide responsibility
+between two components:
+
+- the LLM proposes reviewable fault-signature hypotheses and explains support,
+  contradiction, and uncertainty;
+- deterministic code owns schema enforcement, event-local provenance, dynamic foreign
+  keys, content hashes, action restrictions, rejection, and escalation.
+
+The current manuscript draft reports the following headline values:
+
+| Conclusion tested | Full evidence | Paired comparison | Difference |
 | --- | ---: | ---: | ---: |
-| First-pass strict-schema compliance on HAI | 0.978 | 0.701 unconstrained | +27.7 percentage points |
-| Citations following moved content | 0.776 | 0.194 retaining the original identifier | +58.2 percentage points |
-| Insufficient-evidence selection or human escalation after cross-event replacement | 0.403 | 0.112 real-event evidence | +29.1 percentage points |
+| First-pass strict-schema compliance on HAI | 0.978 | 0.701 ordinary generation | +27.7 percentage points |
+| Citations following moved attributes | 0.776 | 0.194 retaining the old identifier | +58.2 percentage points |
 | TEP macro-averaged top-1 recall | 0.742 | 0.612 information-matched summary | +13.0 percentage points |
 | Correct TEP label with a supported explanation | 0.714 | 0.548 information-matched summary | +16.6 percentage points |
 | Potentially hazardous recommendation rate | 0.008 | 0.016 information-matched summary | -0.8 percentage points |
 
-The complete package also achieved a TEP top-3 hit rate of 0.892 and an automated
-full-support rate of 0.832. Cross-event replacement reduced top-1 recall to 0.356 and the
-supported-correct-label rate to 0.244, providing a controlled check that performance
-depends on event-consistent evidence.
+These claims concern auditability, content responsiveness, and fault-signature support.
+They do not establish physical root causes, industrial-domain expert acceptance, field
+safety, or autonomous-control readiness.
 
-These results test structural reliability, traceability, content responsiveness, fault
-recognition, and automated explanation support separately. They do not establish physical
-causality or deployment safety.
+## Code Directly Tied to the Conclusions
 
-## Repository Status
+The following map identifies the development code that is directly responsible for each
+step between an industrial event and a paper conclusion. These files currently live in the
+authors' development workspace and must be transferred with their dependencies and frozen
+artifacts for the public reproducibility release.
 
-This repository is being initialized for the versioned reproducibility release described in
-the manuscript. At this stage, it contains the project overview only. The following
-artifacts are planned but are **not yet available here**:
+| Paper conclusion or responsibility | Development code | What the code does |
+| --- | --- | --- |
+| Official data and file identity are frozen | `docs/paper/code/paper1/data_contracts.py` | Scans HAI and TEP source files and records file-level hashes and contracts |
+| Schema, evidence roles, safe actions, and rejection are deterministic | `docs/paper/code/paper1/protocol_v6.py` | Builds the Draft 2020-12 schema; performs strict parsing and runtime validation; creates the safe skeleton and identifier-copying baseline |
+| Constrained generation changes structure while evidence remains fixed | `docs/paper/code/paper1/scripts/run_paper1_0712_llm.py` | Renders prompts, binds the runtime schema to `lm-format-enforcer`, executes generation, validates first-pass outputs, and records model and environment metadata |
+| HAI structural and counterfactual conditions are paired by event | `docs/paper/code/paper1/scripts/build_paper1_0712_hai_e1_e3.py` | Builds ordinary, constrained, identifier-only, order, attribute-permutation, direction-reversal, cross-event, and provenance-conflict conditions |
+| HAI structural and evidence-response effects are computed | `docs/paper/code/paper1/scripts/evaluate_paper1_0712_hai_e1_e3.py` | Calculates strict-schema and dynamic-key rates, counterfactual metrics, failure accounting, and 5,000-resample cluster bootstrap intervals |
+| TEP candidate cards and blinded conditions are built | `docs/paper/code/paper1/tep_semantic_v2.py` and `docs/paper/code/paper1/scripts/build_paper1_0712_tep_e4_e6.py` | Loads official TEP runs, extracts candidate cards, freezes fault references and partitions, randomizes aliases, constructs matched conditions, and computes candidate-card pilot metrics |
+| Automated evaluator controls are tested | `build_paper1_0713_deepseek_control.py`, `run_paper1_0713_deepseek_control.py`, and `audit_paper1_0713_deepseek_control.py` under `docs/paper/code/paper1/scripts/` | Builds seven control strata, runs three isolated evaluator calls per case, aggregates majority decisions, and audits accuracy and prompt-injection resistance |
+| Manuscript figures and table consistency are checked | `docs/paper/latex/paper1_2/sensors/tools/plot_sensors_results.py` | Checks arithmetic consistency in the manuscript result dataset and renders the failure, TEP, and effect figures |
 
-- executable JSON schemas and safe-record examples;
-- frozen event manifests, split indices, aliases, and content hashes;
-- candidate-card extraction and provenance-registry code;
-- generation prompts, constrained-decoding configuration, and model metadata;
-- counterfactual transformations and integrity tests;
-- raw responses, validation logs, and request accounting;
-- evaluator prompts, controls, and aggregated judgments; and
-- bootstrap analysis scripts, environment specifications, and reproduction commands.
+The intended trace is:
 
-Release metadata, an archival identifier, access dates, and exact software and model
-versions will be added with the reproducibility package. The two sealed TEP confirmation
-sets described in the manuscript are not part of the reported primary results.
+```text
+official data
+  -> hashed data contracts and frozen event manifests
+  -> candidate observation cards and event-local registry
+  -> paired model-visible conditions
+  -> raw constrained and unconstrained generations
+  -> strict validation and safety decisions
+  -> HAI / TEP / evaluator metrics with event-level resampling
+  -> manuscript tables, figures, and conclusions
+```
 
-## Responsible Use and Limitations
+The public release should preserve this chain rather than publish only plotting code or
+already aggregated numbers.
 
-- The candidate-observation extractor remains a diagnostic ceiling: irrelevant cards may
-  be included and relevant mechanisms may be omitted.
-- TEP is simulated, while HAI does not provide complete variable-level causal labels.
-- The reported generators cover two model families and do not represent the full model
-  population.
-- Third-party automated assessment measures scalable semantic auditing, not agreement
-  with industrial-domain experts.
-- Balanced benchmark sampling does not estimate deployment prevalence or positive
-  predictive value.
-- Real deployment would additionally require access control, operator approval, runtime
-  monitoring, incident replay, governance, and prospective expert evaluation.
+## Current Numerical-Evidence Status
 
-Do not connect research outputs from this repository directly to industrial control
-actions.
+There is an important distinction between code that implements the proposed protocol and
+code that currently supplies the final manuscript numbers.
+
+The current plotting script reads:
+
+```text
+docs/paper/latex/paper1_2/innovation_review/prospective_scenario.json
+```
+
+That file declares:
+
+```text
+status: illustrative_prospective_simulation_not_observed_except_previously_available_table8_pilot
+purpose: Pre-study novelty review and protocol stress testing only
+```
+
+Accordingly, `plot_sensors_results.py` currently validates the internal arithmetic of a
+prepared scenario and renders it; it does not reconstruct all headline values from raw
+model responses and evaluator records. The numerical table above therefore describes the
+values stated in the current manuscript draft, not results independently reproduced by
+this repository.
+
+Before the repository can support the final empirical conclusions, the release must:
+
+1. replace the prospective scenario with observed, frozen result artifacts;
+2. connect raw model and evaluator outputs to all HAI and TEP metrics;
+3. implement and expose the TEP paired bootstrap, multiplicity corrections, calibration,
+   safety bounds, and failure denominators used by the manuscript;
+4. generate the result dataset consumed by the plotting script from those artifacts; and
+5. provide one documented command sequence that rebuilds every reported table and figure.
+
+This status note should be updated only when that end-to-end chain is deposited and
+verified.
+
+## Responsible Interpretation
+
+- Candidate observation quality remains a diagnostic ceiling: the extractor may include
+  irrelevant cards or omit relevant mechanisms.
+- TEP is simulated, while HAI lacks complete variable-level causal labels.
+- Automated evaluation is not a substitute for industrial-domain expert review.
+- Benchmark safety rates cannot certify field deployment.
+- The system is a human-review interface and must never be connected directly to
+  industrial control actions.
 
 ## Citation
 
 The manuscript is currently under submission. Until final bibliographic metadata is
-available, please cite it as:
+available, please cite:
 
 ```bibtex
 @unpublished{zhang2026auditable,
@@ -165,21 +208,9 @@ available, please cite it as:
 }
 ```
 
-The DOI shown in the current journal template is a placeholder and should not be used as
-a persistent identifier.
-
-## Data and Licensing
-
-HAI 21.03 and the Tennessee Eastman Process data are public research datasets governed by
-their respective providers and licenses. Dataset files will not be relicensed by this
-repository.
-
-No repository-wide software or artifact license has been published yet. Unless and until
-a `LICENSE` file is added, normal copyright restrictions apply to repository contents.
+The DOI in the current journal template is a placeholder and should not be used as a
+persistent identifier.
 
 ## Contact
 
-For questions about the manuscript or reproducibility package, contact the corresponding
-author:
-
-- Yong Yang - `YongYang@tiangong.edu.cn`
+Yong Yang, corresponding author: `YongYang@tiangong.edu.cn`
