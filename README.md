@@ -34,17 +34,11 @@ and operational safety must be evaluated separately.
 
 ### Proposed Evidence Contract
 
-```mermaid
-flowchart LR
-    A[Frozen alarm interval] --> B[Candidate observation cards]
-    B --> C[Randomized event-local aliases]
-    C --> D[LLM candidate diagnoses]
-    B --> E[Model-invisible provenance registry]
-    D --> F[Schema and dynamic-key validation]
-    E --> F
-    F --> G[Default-deny safety gates]
-    G --> H[Human review]
-```
+![Auditable post-alarm architecture](assets/figure-1-auditable-architecture.png)
+
+*Figure 1. Auditable post-alarm architecture. The model-visible path produces a
+claim-local record, while the model-invisible layer owns provenance, schema validation,
+dynamic foreign keys, safety gating, and audit status.*
 
 For each alarm event, the method:
 
@@ -88,6 +82,11 @@ The paired experimental conditions include:
 - provenance conflicts that must be rejected before model invocation; and
 - deterministic identifier-copying controls.
 
+![Paired counterfactual design](assets/figure-2-counterfactual-design.png)
+
+*Figure 2. Paired counterfactual design. Every comparison keeps the base event and
+generation settings fixed while changing only the labeled factor.*
+
 ## Main Conclusions
 
 The paper's final conclusion is not simply that an LLM becomes more accurate when given a
@@ -112,6 +111,16 @@ The current manuscript draft reports the following headline values:
 These claims concern auditability, content responsiveness, and fault-signature support.
 They do not establish physical root causes, industrial-domain expert acceptance, field
 safety, or autonomous-control readiness.
+
+![TEP confusion matrix and selective diagnosis](assets/figure-3-tep-results.png)
+
+*Figure 3. TEP fault-level confusion matrix and selective-diagnosis characteristics shown
+in the manuscript.*
+
+![Selected effects and confidence intervals](assets/figure-4-primary-effects.png)
+
+*Figure 4. Selected effectiveness and safety effects with the confidence intervals shown
+in the manuscript.*
 
 ## Code Directly Tied to the Conclusions
 
