@@ -30,6 +30,14 @@ frozen alarm event
 The output is a rejectable and traceable human-review record. It is not proof of physical
 root cause and must not be connected directly to industrial control actions.
 
+## Manuscript Revision
+
+The [September 28 revision package](docs/manuscript/submit0928/README.md) contains the
+editable manuscript, supplementary materials, revision notes, and file checksums.
+It is a **preliminary revision based on review comments, at 60% overall progress**.
+Existing experimental values are retained; the open verification items are listed in
+the package. It is not a final or accepted manuscript.
+
 ## Paper Overview
 
 ### 1. Research Problem

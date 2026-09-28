@@ -1,0 +1,33 @@
+{
+  "revision_date": "2026-09-28",
+  "status": "preliminary_revision",
+  "progress_percent": 60,
+  "description": "Preliminary revision based on review comments; existing experimental values retained.",
+  "files": [
+    {
+      "path": "manuscript.docx",
+      "bytes": 2170718,
+      "sha256": "2e41d52607cdc17731f53afb86e7f01e2f27af4082bb2435004828a7c4800c95"
+    },
+    {
+      "path": "supplementary.docx",
+      "bytes": 1102591,
+      "sha256": "412efee52ab00515ef6d18ef6cfc2df81563ab69c8463778b3742b269231d85d"
+    },
+    {
+      "path": "REVISION_NOTES_ZH.md",
+      "bytes": 4736,
+      "sha256": "df43f67ab8f6729c7a92fa1b1f15aa627a674268903278fae67bc6941e994ee1"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1607,
+      "sha256": "2ce8be5633608456bcbc7e491e5bd1e4cc70da09b6f7192ab1b4697b87271ccf"
+    },
+    {
+      "path": ".gitattributes",
+      "bytes": 77,
+      "sha256": "ebfbb72d709da8b9bf20ad51e875fee511003168cbc8a12bf334805a377f1878"
+    }
+  ]
+}
