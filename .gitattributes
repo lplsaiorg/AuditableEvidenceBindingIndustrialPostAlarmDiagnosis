@@ -1,0 +1,4 @@
+*.docx binary
+*.png binary
+# Preserve checksum-covered JSON bytes on Windows and Unix checkouts.
+docs/manuscript/submit1117/*.json -text

@@ -123,6 +123,8 @@ def _safety_evaluation(
                     f"candidate {index} must escalate when evidence is insufficient"
                 )
             escalations.append(f"candidate {index} selected insufficient evidence")
+        if action in config.safety.escalation_actions:
+            escalations.append(f"candidate {index} requested {action}")
         if (contradiction or missing) and action not in config.safety.escalation_actions:
             failures.append(
                 f"candidate {index} must escalate when evidence conflicts or is missing"

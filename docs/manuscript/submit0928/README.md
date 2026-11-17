@@ -1,10 +1,17 @@
 # September 28 manuscript revision / 9月28日阶段性修订
 
+**Historical snapshot, superseded by the [17 November manuscript](../submit1117/README.md).**
+The progress description below refers only to September 28. It does not establish any
+journal submission history; the authors confirm no journal submission occurred.
+
+**历史快照，当前稿件见[11月17日材料包](../submit1117/README.md)。**
+下述进度仅指9月28日阶段；作者确认论文未曾实际向期刊投稿。
+
 **Status: preliminary revision based on review comments; overall progress 60%.**
 
 **状态：初步参考审稿意见进行修改，整体进度60%，尚未完成全部意见闭环。**
 
-This package records the current editorial revision. Existing experiment values are retained; no new experiments were run and the original experiment logs were not revalidated for this update.
+This package records the September 28 editorial revision. Existing experiment values are retained; no new experiments were run and the original experiment logs were not revalidated for that update.
 
 本次初步调整摘要、引言与章节结构，分开相关工作、方法与实验设置，整理引用及图表分页，并同步补充材料说明。现有实验数值保留，待核实事项列在修改说明中。
 

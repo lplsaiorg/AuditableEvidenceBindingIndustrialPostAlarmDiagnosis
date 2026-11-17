@@ -32,6 +32,7 @@ the deterministic trust boundary.
 | `provenance.py` | Randomized event-local aliases, content hashes, registry, and model-visible context |
 | `diagnosis.py` | Dynamic schema and replaceable generation backends |
 | `audit.py` | Strict JSON, Draft 2020-12 schema, provenance, and safety validation |
+| `verification.py` | Saved-artifact and effective-configuration checks against the run manifest |
 | `observability.py` | Human-readable and JSONL run logs |
 | `pipeline.py` | Stage orchestration and immutable run artifacts |
 | `cli.py` | User-facing commands and exit codes |
@@ -42,6 +43,11 @@ The model receives only the model-visible context and dynamic output schema. It 
 receives raw event identifiers, source coordinates, source hashes, or the provenance
 registry. After generation, deterministic code resolves every evidence alias and applies
 the safety policy. A failure at an earlier layer cannot be repaired by a later layer.
+
+Replay passes the complete saved response text to the strict parser, without first
+normalizing JSON. Re-audit checks the original artifact and configuration hashes before
+reading saved evidence. These integrity checks assume the local manifest is trusted;
+they do not authenticate an independently obtained benchmark source file.
 
 ## Extension Points
 

@@ -8,7 +8,7 @@ from typing import Any
 from . import __version__
 from .audit import audit_response
 from .canonical import read_json, sha256_bytes, sha256_json, write_json, write_text
-from .config import AppConfig
+from .config import AppConfig, config_fingerprint
 from .diagnosis import DiagnosisBackend, build_diagnosis_schema
 from .domain import parse_event
 from .evidence import extract_candidate_cards
@@ -66,21 +66,7 @@ class Pipeline:
         try:
             raw_input = input_path.read_bytes()
             input_hash = sha256_bytes(raw_input)
-            config_hash = sha256_json(
-                {
-                    "schema_version": self._config.schema_version,
-                    "extractor_version": self._config.extractor_version,
-                    "reference_version": self._config.reference_version,
-                    "alias_salt_sha256": sha256_bytes(
-                        self._config.alias_salt.encode("utf-8")
-                    ),
-                    "allowed_labels": self._config.allowed_labels,
-                    "allowed_actions": self._config.allowed_actions,
-                    "label_rules": self._config.label_rules,
-                    "evidence": self._config.evidence.__dict__,
-                    "safety": self._config.safety.__dict__,
-                }
-            )
+            config_hash = config_fingerprint(self._config)
         except Exception as exc:
             logger.emit(
                 "run_failed",

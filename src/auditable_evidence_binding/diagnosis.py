@@ -7,7 +7,6 @@ import urllib.request
 from pathlib import Path
 from typing import Any, Protocol
 
-from .canonical import read_json
 from .config import AppConfig
 
 
@@ -184,8 +183,8 @@ class ReplayBackend:
         self.metadata = {"response_name": response_path.name}
 
     def generate(self, context: dict[str, Any], schema: dict[str, Any]) -> str:
-        payload = read_json(self._response_path)
-        return json.dumps(payload, ensure_ascii=False, allow_nan=False)
+        # Parsing here would discard duplicate keys before the strict audit.
+        return self._response_path.read_text(encoding="utf-8")
 
 
 class OpenAICompatibleBackend:

@@ -30,13 +30,23 @@ frozen alarm event
 The output is a rejectable and traceable human-review record. It is not proof of physical
 root cause and must not be connected directly to industrial control actions.
 
-## Manuscript Revision
+## Current Manuscript — 17 November 2026
 
-The [September 28 revision package](docs/manuscript/submit0928/README.md) contains the
-editable manuscript, supplementary materials, revision notes, and file checksums.
-It is a **preliminary revision based on review comments, at 60% overall progress**.
-Existing experimental values are retained; the open verification items are listed in
-the package. It is not a final or accepted manuscript.
+The [current manuscript package](docs/manuscript/submit1117/README.md) contains the
+substantially revised manuscript prepared for **Applied Sciences**, its supplementary
+materials, and SHA-256 checksums. The authors confirm that the manuscript has not been
+submitted to a journal. The previous README submission label was incorrect.
+
+The [September 28 package](docs/manuscript/submit0928/README.md) is a superseded
+development snapshot; its progress label does not describe the current manuscript.
+The November 17 numerical comparison against November 10 confirms unchanged tables,
+equations, and embedded figures. This is a document-preservation check, not a new
+experimental validation.
+
+The reference implementation has been installed and checked on Windows with Python
+3.12.13: **15 tests passed**, and the rules, safe-fallback, replay, re-audit, and schema
+export commands ran successfully. See the [verification and reproduction guide](docs/VERIFICATION.md)
+for commands, fixes, and the exact scope of this check.
 
 ## Paper Overview
 
@@ -432,6 +442,10 @@ Re-audit an existing run:
 aeb-diagnose verify --config configs/demo.toml --run-dir runs/demo
 ```
 
+Verification first checks the saved artifact hashes and effective configuration against
+`run-manifest.json`, then repeats the deterministic audit. The local manifest must be
+retained as a trusted record; it is not a cryptographic signature of the original dataset.
+
 Export the schema for a configuration:
 
 ```bash
@@ -497,10 +511,10 @@ The runner does not fabricate or substitute those materials. Consequently:
   title  = {Auditable Evidence Binding for Large Language Model-Assisted
             Post-Alarm Diagnosis in Industrial Sensor Time Series},
   author = {Zhang, Wu and Lei, Tianwu and Xiao, Luo and Yang, Yong},
-  note   = {Manuscript submitted to Sensors},
+  note   = {Unsubmitted manuscript, revised 17 November 2026},
   year   = {2026}
 }
 ```
 
-The DOI in the journal template is a placeholder and should not be used as a persistent
-identifier.
+No publication DOI or journal acceptance is asserted. Cite a repository commit when
+referring to a particular version of the software or manuscript.

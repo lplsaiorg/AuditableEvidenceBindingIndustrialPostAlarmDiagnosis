@@ -24,10 +24,19 @@ Post-Alarm Diagnosis in Industrial Sensor Time Series** 的可执行参考实现
 系统输出的是可拒绝、可追溯的人工复核记录，不是物理根因证明，也不能直接
 连接工业控制系统执行操作。
 
-## 阶段性修订材料
+## 当前稿件：2026年11月17日
 
-[9月28日修订材料包](docs/manuscript/submit0928/README.md)包含可编辑主文、补充材料、修改说明和文件校验摘要。
-当前为**初步参考审稿意见进行修改，整体进度60%**；现有实验数值保留，待核实事项见包内说明，尚未完成全部意见闭环。
+[最新稿件材料包](docs/manuscript/submit1117/README.md)包含面向 **Applied Sciences**
+准备的大幅修订主文、补充材料和 SHA-256 校验清单。作者确认该论文尚未实际向期刊投稿，
+此前 README 中的投稿状态标注有误，现已更正。
+
+[9月28日材料包](docs/manuscript/submit0928/README.md)作为历史开发快照保留，
+其中的进度标注不代表当前稿件状态。11月17日稿件与11月10日稿件的数值对照确认：
+表格、公式和内嵌图片未变。该检查验证版本间数值保留情况，不代表重新验证原始实验。
+
+参考实现已在 Windows / Python 3.12.13 下安装验证：**15项测试通过**，
+规则示例、安全回退、响应重放、重新审计及 Schema 导出均成功运行。
+具体命令、修复内容和复现范围见[验证与复现说明](docs/VERIFICATION.md)。
 
 ## 论文主要内容
 
@@ -407,6 +416,9 @@ JSONL 日志还记录：
 aeb-diagnose verify --config configs/demo.toml --run-dir runs/demo
 ```
 
+重新审计首先检查产物哈希和有效配置是否与 `run-manifest.json` 一致，然后执行确定性审计。
+本地清单需作为可信运行记录保留；它不是对原始数据集的数字签名。
+
 导出配置对应的动态 Schema：
 
 ```bash
@@ -469,9 +481,10 @@ python -m pytest
   title  = {Auditable Evidence Binding for Large Language Model-Assisted
             Post-Alarm Diagnosis in Industrial Sensor Time Series},
   author = {Zhang, Wu and Lei, Tianwu and Xiao, Luo and Yang, Yong},
-  note   = {Manuscript submitted to Sensors},
+  note   = {Unsubmitted manuscript, revised 17 November 2026},
   year   = {2026}
 }
 ```
 
-论文模板中的 DOI 仍是占位符，不应作为正式持久标识使用。
+本仓库不声明论文已经发表或被期刊接收，也不提供虚构的出版 DOI。
+引用具体软件或稿件版本时，请同时注明仓库提交号。

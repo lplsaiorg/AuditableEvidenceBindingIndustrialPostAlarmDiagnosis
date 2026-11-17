@@ -5,6 +5,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from .canonical import sha256_bytes, sha256_json
+
 
 class ConfigurationError(ValueError):
     pass
@@ -41,6 +43,23 @@ class AppConfig:
     label_rules: dict[str, str]
     evidence: EvidenceConfig
     safety: SafetyConfig
+
+
+def config_fingerprint(config: AppConfig) -> str:
+    """Bind execution and replay to the same effective configuration."""
+    return sha256_json(
+        {
+            "schema_version": config.schema_version,
+            "extractor_version": config.extractor_version,
+            "reference_version": config.reference_version,
+            "alias_salt_sha256": sha256_bytes(config.alias_salt.encode("utf-8")),
+            "allowed_labels": config.allowed_labels,
+            "allowed_actions": config.allowed_actions,
+            "label_rules": config.label_rules,
+            "evidence": config.evidence.__dict__,
+            "safety": config.safety.__dict__,
+        }
+    )
 
 
 def _required(mapping: dict[str, Any], key: str, expected: type) -> Any:

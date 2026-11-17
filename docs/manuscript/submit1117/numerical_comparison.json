@@ -1,0 +1,60 @@
+{
+  "baseline": "submit1110",
+  "revision": "submit1117",
+  "scope": "Document preservation; no experimental results re-estimated",
+  "files": [
+    {
+      "file": "paper1_AppliedSciences.docx",
+      "before_sha256": "8bf1217b80591a309bf0db798afb95301afc0afee0efe487a85276d86e4e3472",
+      "after_sha256": "5b77a9e41a44c21bd4f6d587e9240767f17f5f2a90cf0dcb440549f43fc7a8f1",
+      "byte_identical": false,
+      "block_count": 203,
+      "changed_blocks": 19,
+      "table_count": 6,
+      "tables_identical": true,
+      "equation_count": 42,
+      "equations_identical": true,
+      "media_count": 8,
+      "media_identical": true,
+      "numeric_changes": [
+        {
+          "block": "P0009",
+          "added": [
+            "0.701",
+            "0.978"
+          ],
+          "removed": []
+        },
+        {
+          "block": "P0017",
+          "added": [],
+          "removed": [
+            "2"
+          ]
+        },
+        {
+          "block": "P0129",
+          "added": [
+            "35.1"
+          ],
+          "removed": []
+        }
+      ]
+    },
+    {
+      "file": "paper1_AppliedSciences_Supplementary.docx",
+      "before_sha256": "56e8be8e8534ad4dc69a19b8a64b195b7089584e675219d2e4c17ad48228d138",
+      "after_sha256": "56e8be8e8534ad4dc69a19b8a64b195b7089584e675219d2e4c17ad48228d138",
+      "byte_identical": true,
+      "block_count": 61,
+      "changed_blocks": 0,
+      "table_count": 10,
+      "tables_identical": true,
+      "equation_count": 13,
+      "equations_identical": true,
+      "media_count": 7,
+      "media_identical": true,
+      "numeric_changes": []
+    }
+  ]
+}

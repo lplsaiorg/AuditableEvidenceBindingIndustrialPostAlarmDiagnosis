@@ -59,3 +59,14 @@ def test_forbidden_high_risk_language_is_rejected() -> None:
 
     assert outcome.status == "rejected"
     assert outcome.audit_record["layers"]["safety"]["status"] == "failed"
+
+
+def test_explicit_human_escalation_is_not_marked_accepted() -> None:
+    config, prepared, schema, raw = _fixture()
+    record = json.loads(raw)
+    record["candidate_explanations"][0]["action"] = "ESCALATE_TO_HUMAN"
+    outcome = audit_response(
+        json.dumps(record), schema, prepared.model_context, prepared.registry, config
+    )
+    assert outcome.status == "escalated"
+    assert outcome.audit_record["layers"]["safety"]["status"] == "passed"

@@ -1,0 +1,18 @@
+{
+  "snapshot": "2026-11-17",
+  "manuscript_status": "Unsubmitted, author-confirmed",
+  "files": {
+    "manuscript.docx": {
+      "bytes": 1971275,
+      "sha256": "5b77a9e41a44c21bd4f6d587e9240767f17f5f2a90cf0dcb440549f43fc7a8f1"
+    },
+    "supplementary.docx": {
+      "bytes": 1441405,
+      "sha256": "56e8be8e8534ad4dc69a19b8a64b195b7089584e675219d2e4c17ad48228d138"
+    },
+    "numerical_comparison.json": {
+      "bytes": 1617,
+      "sha256": "fab8cb753f76eb757eb929aabc2c13a397a2bb32a0678a191bb632248eef272e"
+    }
+  }
+}

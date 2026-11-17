@@ -12,6 +12,7 @@ from .canonical import read_json, write_json
 from .config import load_config
 from .diagnosis import build_diagnosis_schema, create_backend
 from .pipeline import Pipeline
+from .verification import artifact_issues
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -79,6 +80,21 @@ def _schema(args: argparse.Namespace) -> int:
 def _verify(args: argparse.Namespace) -> int:
     config = load_config(args.config)
     run_dir = args.run_dir
+    issues = artifact_issues(run_dir, config)
+    if issues:
+        print(
+            json.dumps(
+                {
+                    "final_status": "rejected",
+                    "layers": {
+                        "artifact_integrity": {"status": "failed", "issues": issues}
+                    },
+                },
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
+        return 2
     raw = (run_dir / "diagnosis" / "raw-response.txt").read_text(encoding="utf-8")
     outcome = audit_response(
         raw,
@@ -87,6 +103,10 @@ def _verify(args: argparse.Namespace) -> int:
         read_json(run_dir / "context" / "provenance-registry.json"),
         config,
     )
+    outcome.audit_record["layers"]["artifact_integrity"] = {
+        "status": "passed",
+        "issues": [],
+    }
     print(json.dumps(outcome.audit_record, ensure_ascii=False, indent=2))
     return 0 if outcome.status in {"accepted", "escalated"} else 2
 
