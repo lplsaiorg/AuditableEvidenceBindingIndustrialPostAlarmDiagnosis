@@ -7,7 +7,7 @@ import sys
 
 def main():
     root = Path(__file__).resolve().parents[1]
-    package = root / "docs" / "manuscript" / "submit1117"
+    package = root / "docs" / "manuscript" / "current"
     manifest = json.loads((package / "manifest.json").read_text(encoding="utf-8"))
     checked = 0
     for name, expected in manifest["files"].items():
@@ -20,7 +20,7 @@ def main():
         checked += 1
     if checked == 0:
         raise ValueError("empty manuscript manifest")
-    print(json.dumps({"package": "submit1117", "files_verified": checked, "status": "passed"}))
+    print(json.dumps({"package": package.name, "files_verified": checked, "status": "passed"}))
 
 
 if __name__ == "__main__":

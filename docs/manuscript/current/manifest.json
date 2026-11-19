@@ -1,0 +1,12 @@
+{
+  "files": {
+    "manuscript.docx": {
+      "bytes": 1951099,
+      "sha256": "262805e6917b13d7d0adb8ee8c4bd211b5a438c6b1b625948a1868edd4b1dd63"
+    },
+    "supplementary.docx": {
+      "bytes": 1441352,
+      "sha256": "00904af0774f86535454874a395341c131d0db26d9ac1768f92a6121e58947a7"
+    }
+  }
+}

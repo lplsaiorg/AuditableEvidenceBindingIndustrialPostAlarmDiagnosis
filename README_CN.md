@@ -1,9 +1,8 @@
 [English](README.md) | **简体中文**
 
-# 面向工业报警后诊断的可审计证据绑定
+# 工业报警后诊断：将诊断判断与传感器证据逐项关联
 
-本仓库是论文 **Auditable Evidence Binding for Large Language Model-Assisted
-Post-Alarm Diagnosis in Industrial Sensor Time Series** 的可执行参考实现。
+本仓库是论文 **Linking Diagnostic Claims to Sensor Evidence after Industrial Alarms** 的可执行参考实现。
 
 它解决的不是异常检测问题，而是报警发生之后的诊断交接问题：
 
@@ -24,9 +23,9 @@ Post-Alarm Diagnosis in Industrial Sensor Time Series** 的可执行参考实现
 系统输出的是可拒绝、可追溯的人工复核记录，不是物理根因证明，也不能直接
 连接工业控制系统执行操作。
 
-## 当前稿件：2026年11月17日
+## 当前稿件
 
-[最新稿件材料包](docs/manuscript/submit1117/README.md)包含面向 **Applied Sciences**
+[最新稿件材料包](docs/manuscript/current/README.md)包含面向 **Applied Sciences**
 准备的大幅修订主文、补充材料和 SHA-256 校验清单。作者确认该论文尚未实际向期刊投稿，
 此前 README 中的投稿状态标注有误，现已更正。
 
@@ -478,10 +477,9 @@ python -m pytest
 
 ```bibtex
 @unpublished{zhang2026auditable,
-  title  = {Auditable Evidence Binding for Large Language Model-Assisted
-            Post-Alarm Diagnosis in Industrial Sensor Time Series},
+  title  = {Linking Diagnostic Claims to Sensor Evidence after Industrial Alarms},
   author = {Zhang, Wu and Lei, Tianwu and Xiao, Luo and Yang, Yong},
-  note   = {Unsubmitted manuscript, revised 17 November 2026},
+  note   = {Unsubmitted manuscript},
   year   = {2026}
 }
 ```

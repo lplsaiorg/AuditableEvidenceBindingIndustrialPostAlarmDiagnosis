@@ -1,11 +1,10 @@
 **English** | [简体中文](README_CN.md)
 
-# Auditable Evidence Binding for Industrial Post-Alarm Diagnosis
+# Linking Diagnostic Claims to Sensor Evidence after Industrial Alarms
 
 This repository is the executable reference implementation for the manuscript:
 
-> **Auditable Evidence Binding for Large Language Model-Assisted Post-Alarm
-> Diagnosis in Industrial Sensor Time Series**
+> **Linking Diagnostic Claims to Sensor Evidence after Industrial Alarms**
 >
 > Wu Zhang, Tianwu Lei, Luo Xiao, and Yong Yang
 
@@ -30,9 +29,9 @@ frozen alarm event
 The output is a rejectable and traceable human-review record. It is not proof of physical
 root cause and must not be connected directly to industrial control actions.
 
-## Current Manuscript — 17 November 2026
+## Current manuscript
 
-The [current manuscript package](docs/manuscript/submit1117/README.md) contains the
+The [current manuscript package](docs/manuscript/current/README.md) contains the
 substantially revised manuscript prepared for **Applied Sciences**, its supplementary
 materials, and SHA-256 checksums. The authors confirm that the manuscript has not been
 submitted to a journal. The previous README submission label was incorrect.
@@ -508,10 +507,9 @@ The runner does not fabricate or substitute those materials. Consequently:
 
 ```bibtex
 @unpublished{zhang2026auditable,
-  title  = {Auditable Evidence Binding for Large Language Model-Assisted
-            Post-Alarm Diagnosis in Industrial Sensor Time Series},
+  title  = {Linking Diagnostic Claims to Sensor Evidence after Industrial Alarms},
   author = {Zhang, Wu and Lei, Tianwu and Xiao, Luo and Yang, Yong},
-  note   = {Unsubmitted manuscript, revised 17 November 2026},
+  note   = {Unsubmitted manuscript},
   year   = {2026}
 }
 ```
